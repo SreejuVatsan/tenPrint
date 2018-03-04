@@ -21,7 +21,7 @@ void setup() {
 	song = minim.loadFile("jsicn.mp3", 2048);
 	song.play();
 	beat = new BeatDetect(song.bufferSize(), song.sampleRate());
-	beat.setSensitivity(200);  
+	beat.setSensitivity(300);
 
 	bl = new BeatListener(beat, song); 
 }
@@ -57,15 +57,19 @@ void draw() {
 		set(0, -(spacing), p);
 		scroll = true;
 		y = height-vertexLength;
-		//println("----->>>>>");
 	}
 
-	if ( beat.isKick() ) {		
+	if (beat.isKick() /*&& frameCount%10 == 0*/) {		
 		background(255);
 		patternNum = int(random(1, 8));
-		println(patternNum);
-		//index = 0;
-		x = 0 /*int(random(0, width/2))*/;
+		// println(patternNum);		
+		if (frameCount%10 == 0) {
+			x = 0 /*int(random(0, width/2))*/;
+		}
+		else {
+			x = int(random(0, width/2));
+			//index = 0;
+		}
 		y = int(random(0, height/1.2));
 	}
 	// if ( beat.isSnare() ) snareSize = 32;
