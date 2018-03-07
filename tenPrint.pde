@@ -27,7 +27,7 @@ void setup() {
 
 	minim = new Minim(this);  
 	song = minim.loadFile("jsicn.mp3", 2048);
-	song.cue(85000);
+	//song.cue(90000);
 	song.play();
 	songBufferSize = song.bufferSize();
 	songSampleRate = song.sampleRate();
@@ -65,46 +65,46 @@ void draw() {
 		if (transitionTime >= 90100 && transitionTime <= 123140) {
 			background(bgColor[bgColorIndex]);
 			if (transitionTime >= 90300 && transitionTime <= 92000) {
-				typography.typographyDraw(0);
+				typography.typographyDraw(0, int(random(0, 3)));
 			}
-			else if (transitionTime >= 94100 && transitionTime <= 95500) {
-				typography.typographyDraw(1);
+			else if (transitionTime >= 94100 && transitionTime <= 95000) {
+				typography.typographyDraw(1, int(random(0, 3)));
 			}
-			else if (transitionTime >= 96100 && transitionTime <= 97400) {
-				typography.typographyDraw(2);
+			else if (transitionTime >= 96100 && transitionTime <= 97000) {
+				typography.typographyDraw(2, int(random(0, 3)));
 			}
-			else if (transitionTime >= 98100 && transitionTime <= 99500) {
-				typography.typographyDraw(3);
+			else if (transitionTime >= 98100 && transitionTime <= 99000) {
+				typography.typographyDraw(3, int(random(0, 3)));
 			}
-			else if (transitionTime >= 101100 && transitionTime <= 102700) {
-				typography.typographyDraw(4);
+			else if (transitionTime >= 101100 && transitionTime <= 102000) {
+				typography.typographyDraw(4, int(random(0, 3)));
 			}
-			else if (transitionTime >= 104100 && transitionTime <= 105500) {
-				typography.typographyDraw(5);
+			else if (transitionTime >= 104100 && transitionTime <= 105000) {
+				typography.typographyDraw(5, int(random(0, 3)));
 			}
-			else if (transitionTime >= 108100 && transitionTime <= 109500) {
-				typography.typographyDraw(6);
+			else if (transitionTime >= 108100 && transitionTime <= 109000) {
+				typography.typographyDraw(6, int(random(0, 3)));
 			}
-			else if (transitionTime >= 110100 && transitionTime <= 111500) {
-				typography.typographyDraw(7);
+			else if (transitionTime >= 110100 && transitionTime <= 111000) {
+				typography.typographyDraw(7, int(random(0, 3)));
 			}
-			else if (transitionTime >= 112100 && transitionTime <= 113500) {
-				typography.typographyDraw(8);
+			else if (transitionTime >= 112100 && transitionTime <= 113000) {
+				typography.typographyDraw(8, int(random(0, 3)));
 			}
-			else if (transitionTime >= 114100 && transitionTime <= 15500) {
-				typography.typographyDraw(9);
+			else if (transitionTime >= 114100 && transitionTime <= 15000) {
+				typography.typographyDraw(9, int(random(0, 3)));
 			}
-			else if (transitionTime >= 116100 && transitionTime <= 117500) {
-				typography.typographyDraw(10);
+			else if (transitionTime >= 116100 && transitionTime <= 117000) {
+				typography.typographyDraw(10, int(random(0, 3)));
 			}
-			else if (transitionTime >= 118100 && transitionTime <= 119500) {
-				typography.typographyDraw(11);
+			else if (transitionTime >= 118100 && transitionTime <= 119000) {
+				typography.typographyDraw(11, int(random(0, 3)));
 			}
-			else if (transitionTime >= 120100 && transitionTime <= 121500) {
-				typography.typographyDraw(12);
+			else if (transitionTime >= 120100 && transitionTime <= 121000) {
+				typography.typographyDraw(12, int(random(0, 3)));
 			}
-			else if (transitionTime >= 122100 && transitionTime <= 123500) {
-				typography.typographyDraw(13);
+			else if (transitionTime >= 122100 && transitionTime <= 123000) {
+				typography.typographyDraw(13, int(random(0, 3)));
 			}
 			else if ((fftLin.getAvg(0)*spectrumScale >= 260) && (millis() - lastDetected) > 100) {
 				lastDetected = millis();
@@ -142,7 +142,6 @@ void draw() {
 		if (bgResetNeeded == true) {
 			bgResetNeeded = false;
 			background(bgColor[bgColorIndex]);
-			println("asdasdasdasdasd");
 		}		
 		pattern.setPattern(x, y, patternNum, index);
 		x += spacing;
@@ -208,8 +207,3 @@ void keyPressed() {
 		}
 	}
 }
-
-// void mousePressed() {
-//   patternNum = int(random(4, 8));
-//   println("patternNum: "+patternNum);
-// }

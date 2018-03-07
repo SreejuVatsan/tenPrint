@@ -2,35 +2,61 @@ import geomerative.*;
 
 class TypographyClass{
 
-	String myText[] = {"what?", "Huh?", "whAt?", "woO", "go Phsycho", "Woo", "what?", "huH?", "So what?!", "so what?", "So What?", "So what?!", "so what?", "Grow up!!"};
-	int myTextSize[] = {200 ,200 ,200 ,200 ,120 ,200 ,200 ,200 ,100 ,100 ,130 ,110 ,120 ,100};
+	String keyWords[] = new String[14];
+	String fontNames[] = {"Amatic-Bold.ttf", "AndikaNewBasic-BI.ttf", "banksb20.ttf", "BEARPAW_.ttf", "FingerPaint-Regular.ttf", "FreeSans.ttf", "GONGN___.ttf", "JINKY.ttf"};
+	FontAgent[] myAgents;
 
-	RFont font[] = new RFont[myText.length];
-	//COULD USE A NOISE FUNCTION HERE FOR WIGGLE.
+	RFont font[] = new RFont[keyWords.length];
 	float wiggle = 3.7;
 
 	TypographyClass (PApplet pa){
 		smooth();
 		RG.init(pa);
-		for (int i = 0; i < myTextSize.length; ++i) {
-			font[i] = new RFont("FreeSans.ttf", myTextSize[i], CENTER);
-		}		
+
+		keyWords = loadStrings("typographyData.csv");
+		for (int i = 0; i < keyWords.length; i++) {
+			font[i] = new RFont(fontNames[int(random(0, fontNames.length))], int(split(keyWords[i], ",")[1]), CENTER);
+		}
 	}
 
-	void typographyDraw(int number){
+	void typographyDraw(int number, int genNum){
 		translate(width/2, height/2);
-		RCommand.setSegmentLength(10);
-		RCommand.setSegmentator(RCommand.UNIFORMLENGTH);
+		RGroup myGroup = font[(number*genNum % 9) == 0 ? int(random(0, number)) : number].toGroup(split(keyWords[number], ",")[0]);
+		//RGroup myGroup = font[(number*genNum % 9)].toGroup(split(keyWords[number], ",")[0]);
+		//println((number*genNum % 9) == 0 ? int(random(0, 9)) : number);
+		RPoint[] myPoints = myGroup.getPoints();
+		if (genNum == 0) {
+			RCommand.setSegmentLength(10);
+			RCommand.setSegmentator(RCommand.UNIFORMLENGTH);
 
-		RGroup myGoup = font[number].toGroup(myText[number]); 
-		RPoint[] myPoints = myGoup.getPoints();
-
-		beginShape(TRIANGLE_STRIP);
-		for (int i=0; i<myPoints.length; i++) {
-			myPoints[i].x += random(-wiggle, wiggle);
-			myPoints[i].y += random(-wiggle, wiggle);
-			vertex(myPoints[i].x, myPoints[i].y);
+			beginShape(TRIANGLE_STRIP);
+			for (int i=0; i<myPoints.length; i++) {
+				myPoints[i].x += random(-wiggle, wiggle);
+				myPoints[i].y += random(-wiggle, wiggle);
+				vertex(myPoints[i].x, myPoints[i].y);
+			}
+			endShape();
 		}
-		endShape();
+		else if (genNum == 1) {
+			RCommand.setSegmentLength(int(random(0, 30)));
+			RCommand.setSegmentator(RCommand.UNIFORMLENGTH); 
+			myGroup = myGroup.toPolygonGroup();
+
+			beginShape();
+			for(int i=0; i<myPoints.length; i++){
+				//vertex(myPoints[i].x, myPoints[i].y); 
+				curveVertex(myPoints[i].x, myPoints[i].y);
+			}
+			endShape();
+		}
+		else if (genNum == 2) {
+			myAgents = new FontAgent[myPoints.length];
+			for (int i=0; i<myPoints.length; i++) {
+				myAgents[i] = new FontAgent(new PVector(myPoints[i].x, myPoints[i].y));
+			}
+			for (int i = 0; i < myPoints.length; i++) {
+				myAgents[i].display();
+			}
+		}
 	}
 }
