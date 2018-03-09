@@ -11,7 +11,7 @@ int songBufferSize;
 float songSampleRate;
 int lastDetected = 0, transitionTime, bgColorIndex = 0;
 
-int x = 0, y = 0, spacing = 50, index = 0, vertexLength = 50, patternNum = 2;
+int x = 0, y = 0, spacing = 100, index = 0, vertexLength = 100, patternNum = 1;
 boolean scroll = false, looping = true, bgResetNeeded = false;
 RandomPattern pattern;
 int bgColor[] = {0,255};
@@ -20,14 +20,16 @@ TypographyClass typography;
 
 
 void setup() {
-	size(600, 600);
+	//size(600, 600);
+	fullScreen(P2D);
 	//size(displayWidth, displayHeight);
+	println(displayWidth + " - "+ displayHeight);
 	background(255);
 	pattern = new RandomPattern(vertexLength);
 
 	minim = new Minim(this);  
 	song = minim.loadFile("jsicn.mp3", 2048);
-	//song.cue(90000);
+	song.cue(180000);
 	song.play();
 	songBufferSize = song.bufferSize();
 	songSampleRate = song.sampleRate();
@@ -52,8 +54,8 @@ void draw() {
 			background(255);
 			for (int i = 0; i < int(random(50, 1000)); ++i) {
 				patternNum = int(random(1, 8));
-				x = spacing * int(random(0, 12));
-				y = spacing * int(random(0, 12));
+				x = spacing * int(random(0, (displayWidth/spacing)));
+				y = spacing * int(random(0, (displayHeight/spacing)));
 				pattern.setPattern(x, y, patternNum, index);
 			}			
 		}
@@ -61,7 +63,7 @@ void draw() {
 			bgResetNeeded = true;
 		}
 	}
-	else if ((transitionTime >= 90100 && transitionTime <= 123140) || (transitionTime >= 186000)) {
+	else if ((transitionTime >= 90100 && transitionTime <= 123000) || (transitionTime >= 186000)) {
 		if (transitionTime >= 90100 && transitionTime <= 123140) {
 			background(bgColor[bgColorIndex]);
 			if (transitionTime >= 90300 && transitionTime <= 92000) {
@@ -100,11 +102,14 @@ void draw() {
 			else if (transitionTime >= 118100 && transitionTime <= 119000) {
 				typography.typographyDraw(11, int(random(0, 3)));
 			}
-			else if (transitionTime >= 120100 && transitionTime <= 121000) {
+			else if (transitionTime >= 119100 && transitionTime <= 120000) {
 				typography.typographyDraw(12, int(random(0, 3)));
 			}
-			else if (transitionTime >= 122100 && transitionTime <= 123000) {
+			else if (transitionTime >= 120100 && transitionTime <= 121000) {
 				typography.typographyDraw(13, int(random(0, 3)));
+			}
+			else if (transitionTime >= 122100 && transitionTime <= 123000) {
+				typography.typographyDraw(14, int(random(0, 3)));
 			}
 			else if ((fftLin.getAvg(0)*spectrumScale >= 260) && (millis() - lastDetected) > 100) {
 				lastDetected = millis();
@@ -112,8 +117,8 @@ void draw() {
 				background(bgColor[bgColorIndex = (bgColorIndex < (bgColor.length - 1) ? ++bgColorIndex : 0)]);
 				patternNum = int(random(1, 8));
 				index = 0;
-				for (int i = 0; i <= height; i += spacing) {
-					for (int j = 0; j <= height; j += spacing) {
+				for (int i = 0; i <= displayWidth; i += spacing) {
+					for (int j = 0; j <= displayHeight; j += spacing) {
 						pattern.setPattern(j, i, patternNum, index);
 					}
 					index++;
@@ -125,9 +130,10 @@ void draw() {
 			background(255);
 			patternNum = int(random(1, 8));
 			index = 0;
-			for (int i = 0; i <= height; i += spacing) {
-				for (int j = 0; j <= height; j += spacing) {
+			for (int i = 0; i <= displayHeight; i += spacing) {
+				for (int j = 0; j <= displayHeight; j += spacing) {
 					pattern.setPattern(j, i, patternNum, index);
+					println("x: " + j + " - y: " + i);
 				}
 				index++;
 			}
@@ -146,12 +152,12 @@ void draw() {
 		pattern.setPattern(x, y, patternNum, index);
 		x += spacing;
 
-		if (x > (width + 1*spacing)) {
+		if (x > (displayWidth + 1*spacing)) {
 			x = 0;
 			index++;
 			if (scroll == true) {		
-				y = height-vertexLength;
-				PImage p = get(0, 0, width, height);
+				y = displayHeight-vertexLength;
+				PImage p = get(0, 0, displayWidth, displayHeight);
 				//background(255);
 				background(bgColor[bgColorIndex]);
 				set(0, -(spacing), p);
@@ -161,13 +167,13 @@ void draw() {
 			}		
 		}
 
-		if (index == (height/spacing) && scroll == false) {
-			PImage p = get(0, 0, width, height);
+		if (index == (displayHeight/spacing) && scroll == false) {
+			PImage p = get(0, 0, displayWidth, displayHeight);
 			//background(255);
 			background(bgColor[bgColorIndex]);
 			set(0, -(spacing), p);
 			scroll = true;
-			y = height-vertexLength;
+			y = displayHeight-vertexLength;
 		}
 		
 		if ((fftLin.getAvg(0)*spectrumScale >= 260) && (millis() - lastDetected) > 100) {
@@ -189,7 +195,6 @@ void draw() {
 			scroll = false;
 		}
 	}
-	//println(song.position());
 }
 
 void keyPressed() {
