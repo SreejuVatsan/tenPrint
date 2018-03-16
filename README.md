@@ -1,2 +1,2 @@
 # tenPrint
-An audio visualizer using processing inspired from the book "10 PRINT CHR$(205.5+RND(1)); : GOTO 10"
+A code based generative visualizer for the song Icon from the album Syre by Jaden Smith. tenTile is majorly based on Truchet tiles,[1] a technique discovered by Dominican priest Sebastien Truchet in 1704, through his experiments with some ceramic tiles at a building site he came across. This audio visualizer was initially inspired by the book '10 Print Chr$(205.5 Rnd(1)); :Goto 10' by Nick Montfort in collaboration with 9 other authors.
