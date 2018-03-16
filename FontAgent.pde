@@ -1,3 +1,6 @@
+/**
+ * Helper Class. Used with example TypoGeo_Motion_02
+ */
 class FontAgent {
   PVector loc;
 
@@ -14,5 +17,4 @@ class FontAgent {
     line(-len, -len, len, len);
     popMatrix();
   }
-} 
-
+}
